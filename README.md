@@ -33,12 +33,16 @@
 
 ```bash
 /
-├── data/ 			# train/test*.csv 보관
-├── evaluate_func/ 	# 평가함수 보관
-├── submission/ 	# *submission.csv 보관
+├── data/		# train/test*.csv 보관
+├── evaluate_func/	# 평가함수 보관
+├── submission/		# *submission.csv 보관
 ├── .gitignore
 ├── README.md
-└── __main__.ipynb 	# 커널 코드
+└── __main__.ipynb	# 커널 코드
 
 ```
+
+
+
+
 
