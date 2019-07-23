@@ -1,0 +1,3 @@
+*checkpoints*
+*.csv
+!*submission.csv
