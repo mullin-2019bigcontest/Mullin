@@ -1,4 +1,14 @@
-*checkpoints*
-*.csv
+# data/
+data/*.csv
+
+# submission 제외
 !*submission.csv
+
+# ipynb checkpoints
+*checkpoints*
+
+# MNIST/ 
 MNIST*
+
+# import 시 생성되는 pycache
+__pycache__/*
