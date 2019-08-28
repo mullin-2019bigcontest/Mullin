@@ -18,10 +18,10 @@
 
 **<u>팀원</u>**
 
-- 강태형
-- 심재헌
-- 조윤기
-- 차호진
+- 강태형 (gtpgg1013)
+- 심재헌 (Roasters)
+- 조윤기 (joyoon729)
+- 차호진 (aporlo21)
 
 <br>
 
@@ -33,8 +33,11 @@
 
 ```bash
 /
-├── data/		# train/test*.csv 보관
+├── data/		# train/test*.csv 및 생성된 .csv 보관
+├── document/           # 대회측 제공 자료 보관
 ├── evaluate_func/	# 평가함수 보관
+├── notification/       # 회의 내용 등 보관
+      ├── archive/      # 과거 코드 보관
 ├── submission/		# *submission.csv 보관
 ├── .gitignore
 ├── README.md
