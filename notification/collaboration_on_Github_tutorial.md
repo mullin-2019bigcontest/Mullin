@@ -50,7 +50,7 @@ Forking Workflow 방식은 팀원 모두가 로컬 저장소, fork된 원격 저
 
 [멀린-빅콘테 깃허브 중앙 원격 저장소](https://github.com/mullin-2019bigcontest/Mullin)에 들어가 **fork** 버튼 클릭!
 
-![](./etc/fork.png)
+![](/etc/fork.png)
 
 <br>
 
