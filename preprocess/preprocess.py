@@ -74,7 +74,7 @@ def save_df(dataset, df, preprocess_dir):
 	path = os.path.join(preprocess_dir, name)
 
 	df.to_csv(path, index=False)
-	print('\nDone.\n')
+	print(f'\nDone. {path}\n')
 	
 
 
