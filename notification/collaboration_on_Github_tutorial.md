@@ -56,7 +56,7 @@ Forking Workflow 방식은 팀원 모두가 로컬 저장소, fork된 원격 저
 
 그러면 자동으로 Mullin 이름의 repository 가 계정에 만들어집니다.
 
-![](./etc/forked.png)
+![](/etc/forked.png)
 
 <br>
 
@@ -64,7 +64,7 @@ Forking Workflow 방식은 팀원 모두가 로컬 저장소, fork된 원격 저
 
 `Clone or download` 버튼 클릭해서 remote repository URL 복사해둡니다.
 
-![](./etc/clone_copy.png)
+![](/etc/clone_copy.png)
 
 <br>
 
@@ -108,7 +108,7 @@ $ git remote -v
 
 <참고 그림>
 
-![](./etc/upstream_origin.png)
+![](/etc/upstream_origin.png)
 
 <br>
 
@@ -184,7 +184,7 @@ $ git push origin joyoon # joyoon 브랜치의 내용을 원격 저장소 origin
 
 깃허브 페이지에서는
 
-![](./etc/branch.png)
+![](/etc/branch.png)
 
 이렇게 들어가서 확인할 수 있습니다.
 
@@ -192,7 +192,7 @@ $ git push origin joyoon # joyoon 브랜치의 내용을 원격 저장소 origin
 
 이제 브랜치 내용을 Pull Request 해서 중앙 원격 저장소에 적용해달라고 요청을 합니다.
 
-![](./etc/pull_request.png)
+![](/etc/pull_request.png)
 
 <br>
 
