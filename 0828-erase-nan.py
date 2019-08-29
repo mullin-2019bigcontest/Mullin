@@ -85,4 +85,4 @@ df[cols_to_mean] = df[cols_to_mean].fillna(0)
 
 
 ## 파일 저장
-df.to_csv('data/28day_no_nan_train.csv')
+df.to_csv('data/28day_no_nan_train.csv', index=False)
