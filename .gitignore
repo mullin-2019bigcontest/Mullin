@@ -1,5 +1,8 @@
-# data/
-data/*.csv
+# raw/
+raw/*.csv
+
+# preprocess/
+preprocess/*.csv
 
 # submission 제외
 !*submission.csv
@@ -11,4 +14,4 @@ data/*.csv
 MNIST*
 
 # import 시 생성되는 pycache
-__pycache__/*
+*__pycache__*
