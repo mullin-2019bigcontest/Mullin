@@ -33,12 +33,13 @@
 
 ```bash
 /
-├── data/		# train/test*.csv 및 생성된 .csv 보관
 ├── document/           # 대회측 제공 자료 보관
 ├── evaluate_func/	# 평가함수 보관
 ├── notification/       # 회의 내용 등 보관
       ├── archive/      # 과거 코드 보관
-├── submission/		# *submission.csv 보관
+├── predict/		# *submission.csv 보관
+├── preprocess/		# 전처리된 *.csv, 전처리 코드 *.py 보관
+├── raw/		# train/test*.csv 대회측에서 제공한 raw dataset 보관
 ├── .gitignore
 ├── README.md
 └── __main__.ipynb	# 커널 코드
