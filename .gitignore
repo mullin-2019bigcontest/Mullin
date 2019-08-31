@@ -1,4 +1,4 @@
-# raw/
+﻿# raw/
 raw/*.csv
 
 # preprocess/
@@ -12,6 +12,11 @@ preprocess/*.csv
 
 # MNIST/ 
 MNIST*
+
+# notification/archive/savecheckpoint : 모델이 저장되는 장소
+notification/archive/savecheckpoint/*.h5
+notification/archive/savecheckpoint/*.txt
+notification/archive/savecheckpoint/*.json
 
 # import 시 생성되는 pycache
 *__pycache__*
