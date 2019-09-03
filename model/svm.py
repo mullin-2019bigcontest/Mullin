@@ -11,7 +11,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 import os
 import pickle
-
+import time
 
 TRAIN_NAME = '0831-21-train.csv'
 LABEL_NAME = 'train_label.csv'
@@ -79,56 +79,57 @@ def survival_time_model(size, train_X, val_X, train_y, val_y):
     train_y = preprocess_y_survival(train_y)
     val_y = preprocess_y_survival(val_y)
     
-#     svc = SVC(C=5000, kernel='poly', gamma='scale') # sklearn:: Support Vector Classifier
-#     svc.fit(train_X[:size], train_y[:size])
+    svc = SVC(C=1000, kernel='linear', gamma='scale') # sklearn:: Support Vector Classifier
+    svc.fit(train_X[:size], train_y[:size])
 
-#     score = svc.score(val_X, val_y)
-#     predict = svc.predict(val_X)
+    score = svc.score(val_X, val_y)
+    predict = svc.predict(val_X)
     
-    ### grid search
-    parameters = {'gamma':('scale', 'auto'), 'kernel':('linear', 'rbf', 'poly'), 'C':[1000, 5000]}
-    svc = SVC()
-    clf = GridSearchCV(svc, parameters, n_jobs=-1, cv=5)
-    clf.fit(train_X[:size], train_y[:size])
-    print(f'grid search best parameter: {clf.best_params_}')
+    # ### grid search
+    # parameters = {'gamma':('scale', 'auto'), 'kernel':('linear', 'rbf', 'poly'), 'C':[1000, 5000]}
+    # svc = SVC()
+    # clf = GridSearchCV(svc, parameters, n_jobs=-1, cv=5)
+    # clf.fit(train_X[:size], train_y[:size])
+    # print(f'grid search best parameter: {clf.best_params_}')
     
-    score = clf.score(val_X, val_y)
-    predict = clf.predict(val_X)
+    # score = clf.score(val_X, val_y)
+    # predict = clf.predict(val_X)
     
     print(f'validation dataset 에 대한 score: {score:.4f}')
     print(f'validation dataset 의 분류된 label 수: {len(np.unique(predict))}')
+    print(f'{np.unique(predict)}')
     print()
     
     # 모델 저장 (model/*_model1.pkl)
     with open(MODEL1_PATH, 'wb') as fp:
-        pickle.dump(clf, fp)
+        pickle.dump(svc, fp)
         
 def amount_spent_model(size, train_X, val_X, train_y, val_y):
     train_y = preprocess_y_spent(train_y)
     val_y = preprocess_y_spent(val_y)
     
-#     svc = SVR(C=5000, kernel='linear', gamma='auto') # sklearn:: Support Vector Regressor
-#     svc.fit(train_X[:size], train_y[:size])
+    svr = SVR(C=1000, kernel='poly', gamma='auto') # sklearn:: Support Vector Regressor
+    svr.fit(train_X[:size], train_y[:size])
 
-#     predict = svc.predict(val_X)
-#     mse = mean_squared_error(val_y, predict)
+    predict = svr.predict(val_X)
+    mse = mean_squared_error(val_y, predict)
 
     ### grid search
-    parameters = {'gamma':('scale', 'auto'), 'kernel':('linear', 'rbf', 'poly'), 'C':[1000, 5000]}
-    svr = SVR()
-    clf = GridSearchCV(svr, parameters, n_jobs=-1, cv=5)
-    clf.fit(train_X[:size], train_y[:size])
-    print(f'grid search best parameter: {clf.best_params_}')
+    # parameters = {'gamma':('scale', 'auto'), 'kernel':('linear', 'rbf', 'poly'), 'C':[1000, 5000]}
+    # svr = SVR()
+    # clf = GridSearchCV(svr, parameters, n_jobs=-1, cv=5)
+    # clf.fit(train_X[:size], train_y[:size])
+    # print(f'grid search best parameter: {clf.best_params_}')
     
-    predict = clf.predict(val_X)
-    mse = mean_squared_error(val_y, predict)
+    # predict = clf.predict(val_X)
+    # mse = mean_squared_error(val_y, predict)
     
-    print(f'validation dataset 에 대한 mse score: {mse:.4f}')
-    print()
+    # print(f'validation dataset 에 대한 mse score: {mse:.4f}')
+    # print()
     
     # 모델 저장 (model/*_model2.pkl)
     with open(MODEL2_PATH, 'wb') as fp:
-        pickle.dump(clf, fp)
+        pickle.dump(svr, fp)
 
 # 저장된 모델 불러와서 test dataset 에 대해 예측
 def test_model_svm(train, test1, test2):  
@@ -144,15 +145,22 @@ def test_model_svm(train, test1, test2):
         print('survival time')
         print(f'전체 train dataset 에 대한 score: {score:.4f}')
         print(f'분류된 test1 dataset 의 label 수: {len(np.unique(predict1))}')
+        print(f'{np.unique(predict1)}')
+        print()
         print(f'분류된 test2 dataset 의 label 수: {len(np.unique(predict2))}')
+        print(f'{np.unique(predict2)}')
         print()
         
     with open(MODEL2_PATH, 'rb') as fp:
         model = pickle.load(fp)
+        predict0 = model.predict(train)
         predict1 = model.predict(test1)
         predict2 = model.predict(test2)
 
+        mse = mean_squared_error(train_y2, predict0)
+
         print('amount spent')
+        print(f'전체 train dataset 에 대한 mse: {mse:.4f}')
         print(f'predict1: {predict1}')
         print()
 
@@ -160,6 +168,7 @@ def test_model_svm(train, test1, test2):
 # ------------------
 #   main
 # ------------------
+start = time.time()  # 코드 시작 시간
 
 train_X = preprocess_X(pd.read_csv(TRAIN_PATH))
 train_y = pd.read_csv(LABEL_PATH)  # label에 대한 전처리는 각 함수 내에서 작업.
@@ -174,5 +183,8 @@ train_X = mm.fit_transform(train_X)
 test1 = mm.transform(test1)
 test2 = mm.transform(test2)
 
-create_model_svm(train_X, train_y, size=40000)
+create_model_svm(train_X, train_y, size=1000)
 test_model_svm(train_X, test1, test2)
+
+exe_time = time.time() - start
+print(f'execution time : {exe_time//3600:02.0f}h {exe_time%3600//60:02.0f}m {exe_time%60:02.0f}s')
