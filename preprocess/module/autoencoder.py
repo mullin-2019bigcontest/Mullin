@@ -35,7 +35,7 @@ from datetime import datetime
 import os
 
 
-class autoencoder():
+class Autoencoder():
     # 생성자. 사용될 변수 미리 선언
     def __init__(self, n_hidden1=40, n_hidden2=20):
         self.shape0 = None               # 전체 데이터 수
@@ -50,6 +50,19 @@ class autoencoder():
         self.learning_rate = 0.01
         self.batch_size = 150
         self.l2_reg = 0.0001
+
+    def parameters(self):
+        print(f'shape0   : {self.shape0:8d}\t# 입력 데이터 수')
+        print(f'n_inputs : {self.n_inputs:8d}\t# 입력 feature 수')
+        print(f'n_hidden1: {self.n_hidden1:8d}\t# hidden1 layer size')
+        print(f'n_hidden2: {self.n_hidden2:8d}\t# hidden2 layer size')
+        print(f'n_hidden3: {self.n_hidden3:8d}\t# hidden3 layer size (=n_hidden1)')
+        print(f'n_outputs: {self.n_outputs:8d}\t# 출력 feature 수(=n_inputs)\n')
+        print(f'learning_rate: {self.learning_rate}')
+        print(f'n_epochs     : {self.n_epochs}')
+        print(f'batch_size   : {self.batch_size}')
+        print(f'n_batches    : {self.n_batches}')
+        print(f'l2_reg       : {self.l2_reg}')
     
     # 레이어 사이즈 설정
     def set_layer(self, n_hidden1, n_hidden2):
@@ -59,9 +72,9 @@ class autoencoder():
         self.n_outputs = self.n_inputs
 
     # 학습 파라미터 설정
-    def set_train(self, n_epochs, learning_rate, batch_size, l2_reg=0.0001):
+    def set_train(self, learning_rate=0.01, n_epochs=3, batch_size=150, l2_reg=0.0001):
         if not self.shape0:
-            print('메소드 make_autoencoder 를 먼저 실행해주세요')
+            print('메소드 make() 를 먼저 실행해주세요')
             return
         self.n_epochs = n_epochs
         self.learning_rate = learning_rate
@@ -125,8 +138,7 @@ class autoencoder():
                     batch_x = next(self.shuffle_batch(train_x, epoch+datetime.now().hour)) # seed: 현재 시간+epoch
                     _, _loss = sess.run([self.train_op, self.reconstruction_loss], feed_dict={self.inputs:batch_x})
                 print(f'epoch: {epoch+1}/{self.n_epochs}, Train MSE: {_loss:.10f}')
-            coding_units = sess.run(self.coding_units, feed_dict={self.inputs:train_x})
-            outputs = sess.run(self.outputs, feed_dict={self.inputs:train_x})
+            coding_units, outputs = sess.run([self.coding_units, self.outputs], feed_dict={self.inputs:train_x})
             # 학습 끝나면 레이어 중앙의 인코딩 유닛과 디코딩된 아웃풋 리턴
             return coding_units, outputs 
         
