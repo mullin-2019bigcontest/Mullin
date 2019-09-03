@@ -1,3 +1,22 @@
-*checkpoints*
-*.csv
+﻿# raw/
+raw/*.csv
+
+# preprocess/
+preprocess/*.csv
+
+# submission 제외
 !*submission.csv
+
+# ipynb checkpoints
+*checkpoints*
+
+# MNIST/ 
+MNIST*
+
+# notification/archive/savecheckpoint : 모델이 저장되는 장소
+notification/archive/savecheckpoint/*.h5
+notification/archive/savecheckpoint/*.txt
+notification/archive/savecheckpoint/*.json
+
+# import 시 생성되는 pycache
+*__pycache__*
