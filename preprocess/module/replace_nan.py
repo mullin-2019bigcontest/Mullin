@@ -4,15 +4,8 @@ def replace_nan(dataset, df):
       print('\n:::::::: replace NaN values...')
       ## 변수명 알아보기 쉽게 정리
       # notification/archive/0828-erase-nan.ipynb 주석 참고
-      df.rename(columns={'class_0':'c_cnt_class0', # c_cnt_class0 : "combat count class0", 해당 날짜에 class0 으로 전투한 횟수
-                        'class_1':'c_cnt_class1',
-                        'class_2':'c_cnt_class2',
-                        'class_3':'c_cnt_class3',
-                        'class_4':'c_cnt_class4',
-                        'class_5':'c_cnt_class5',
-                        'class_6':'c_cnt_class6',
-                        'class_7':'c_cnt_class7',
-                        'etc_cnt':'c_etc_cnt', 
+      # c_cnt_class0 : "combat count class0", 해당 날짜에 class0 으로 전투한 횟수
+      df.rename(columns={'etc_cnt':'c_etc_cnt', 
                         'num_opponent':'c_num_opponent',
                         'pledge_cnt':'c_pledge_cnt',
                         'random_attacker_cnt':'c_random_attacker_cnt',
@@ -27,12 +20,6 @@ def replace_nan(dataset, df):
                         'pledge_combat_cnt':'p_c_cnt',
                         'total_combat_cnt_per_pledge':'tot_c_rank_per_p',
                         'total_item_price':'tot_item_price',
-                        'time_bin_0':'t_time_bin_0',
-                        'time_bin_1':'t_time_bin_1',
-                        'time_bin_2':'t_time_bin_2',
-                        'time_bin_3':'t_time_bin_3',
-                        'type_0':'t_type_0',
-                        'type_1':'t_type_1',
                         'death':'a_death_cnt',
                         'enchant_count':'a_enchant_count',
                         'exp_recovery':'a_exp_recovery_cnt',
@@ -50,7 +37,7 @@ def replace_nan(dataset, df):
                         }, inplace=True)
 
       # char_id drop
-      df.drop('char_id', axis=1, inplace=True)
+      # df.drop('char_id', axis=1, inplace=True)
 
       ## 0으로 치환할 컬럼, 평균으로 치환할 컬럼 구분
       cols_list = df.columns.values.tolist()
