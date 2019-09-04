@@ -7,6 +7,9 @@ preprocess/*.csv
 # submission 제외
 !*submission.csv
 
+# .pkl (model)
+model/*.pkl
+
 # ipynb checkpoints
 *checkpoints*
 
