@@ -8,10 +8,10 @@ from datetime import datetime
 fields = ['activity', 'combat', 'pledge', 'trade', 'payment']
 
 # 경로
-current_working_dir = os.getcwd()
-root_dir = os.path.dirname(current_working_dir)
-raw_dir = os.path.join(root_dir, 'raw')
-preprocess_dir = os.path.join(root_dir, 'preprocess')
+from module import path_header
+# ROOT_DIR = path_header.ROOT_DIR
+RAW_DIR = path_header.RAW_DIR
+PREPROCESS_DIR = path_header.PREPROCESS_DIR
 
 
 # ------------------------------------------------------------------------------------
@@ -19,20 +19,25 @@ preprocess_dir = os.path.join(root_dir, 'preprocess')
 # ------------------------------------------------------------------------------------
 from module.base_preprocessing import *
 from module.replace_nan import *
+from module import label
 
 def preprocess(dataset):
-	dfs = load_data(dataset, raw_dir)         # raw csv 로드
+	if dataset == 'train':  # train label 전처리 수행 (acc_id 정렬, one-hot-encoding)
+		label.ohe()
+		label.no_ohe()
+
+	dfs = load_data(dataset, RAW_DIR)         # raw csv 로드
 	df = merge_df(dataset, dfs)               # 한개 csv로 merge
 	df = fill_day(dataset, df)                # 28 days 채우기 (오랜시간 소요)
 	df = replace_nan(dataset, df)
-	save_df(dataset, df, preprocess_dir)      # 저장
+	save_df(dataset, df, PREPROCESS_DIR)      # 저장
 
-def load_data(dataset, raw_dir):
+def load_data(dataset, RAW_DIR):
 	print('\n:::::::: create dataframes...')
 	dfs = list()
 	for field in fields:
 		name = f'{dataset}_{field}'
-		path = os.path.join(raw_dir, f'{name}.csv')
+		path = os.path.join(RAW_DIR, f'{name}.csv')
 		dfs.append(pd.read_csv(path))
 		print(name, '\t', dfs[-1].shape)
 	return dfs
@@ -67,11 +72,11 @@ def fill_day(dataset, df):
 	print(f'{dataset} shape:\t{day_filled_df.shape}')
 	return day_filled_df
 
-def save_df(dataset, df, preprocess_dir):
+def save_df(dataset, df, PREPROCESS_DIR):
 	print('\n:::::::: save dataframe to csv...')
 	time = datetime.now().strftime('%m%d-%H')
 	name = f'{time}-{dataset}.csv'
-	path = os.path.join(preprocess_dir, name)
+	path = os.path.join(PREPROCESS_DIR, name)
 
 	df.to_csv(path, index=False)
 	print(f'\nDone. {path}\n')
@@ -84,6 +89,9 @@ def save_df(dataset, df, preprocess_dir):
 
 preprocess('train')
 
-# preprocess('test1')
+preprocess('test1')
 
-# preprocess('test2')
+preprocess('test2')
+
+
+
