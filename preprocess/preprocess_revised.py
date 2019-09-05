@@ -17,7 +17,7 @@ PREPROCESS_DIR = path_header.PREPROCESS_DIR
 # ------------------------------------------------------------------------------------
 #      function definition
 # ------------------------------------------------------------------------------------
-from module.base_preprocessing import *
+from module.base_preprocessing_revised import *
 from module.replace_nan import *
 from module import label
 
@@ -29,6 +29,7 @@ def preprocess(dataset):
 	dfs = load_data(dataset, RAW_DIR)         # raw csv 로드
 	df = merge_df(dataset, dfs)               # 한개 csv로 merge
 	df = fill_day(dataset, df)                # 28 days 채우기 (오랜시간 소요)
+	save_df_withNA(dataset, df, PREPROCESS_DIR)
 	df = replace_nan(dataset, df)
 	save_df(dataset, df, PREPROCESS_DIR)      # 저장
 
@@ -53,7 +54,7 @@ def merge_df(dataset, dfs):
 
 	# Squeeze the whole dataframes into one
 	print('\n:::::::: merge dataframes...')
-	df = combat.join(pledge).join(trade).join(activity)
+	df = combat.join(pledge).join(trade).join(activity).join(payment)
 	print(f'{dataset} shape:\t{df.shape}')
 	return df
 
@@ -75,11 +76,20 @@ def fill_day(dataset, df):
 def save_df(dataset, df, PREPROCESS_DIR):
 	print('\n:::::::: save dataframe to csv...')
 	time = datetime.now().strftime('%m%d-%H')
-	name = f'{time}-{dataset}.csv'
+	name = f'{time}-{dataset}-v2.csv'
 	path = os.path.join(PREPROCESS_DIR, name)
 
 	df.to_csv(path, index=False)
 	print(f'\nDone. {path}\n')
+
+def save_df_withNA(dataset, df, PREPROCESS_DIR):
+	print('\n:::::::: save dataframe to csv...')
+	time = datetime.now().strftime('%m%d-%H')
+	name = f'{time}-{dataset}-v2-withNA.csv'
+	path = os.path.join(PREPROCESS_DIR, name)
+
+	df.to_csv(path, index=False)
+	print(f'\nfile with NA is saved. {path}\n')
 	
 
 
@@ -89,9 +99,9 @@ def save_df(dataset, df, PREPROCESS_DIR):
 
 preprocess('train')
 
-preprocess('test1')
+# preprocess('test1')
 
-preprocess('test2')
+# preprocess('test2')
 
 
 
